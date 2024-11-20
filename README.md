@@ -8,7 +8,7 @@ Example: If the user inputs "hello", the bot responds with "Hi there!".
 - Tracks the state of the conversation with a context object.
 Example: If the user asks for an "agent," the bot will ask for confirmation and handle follow-up inputs like "yes" or "no".
 ### 3. Math Expression Handling
-Detects and evaluates mathematical expressions entered by the user.
+-Detects and evaluates mathematical expressions entered by the user.
 Example: Inputting "5 + 3" will return "The result of 5 + 3 is 8.".
 ### 4. Fallback Responses
 - Provides fallback responses for unrecognized inputs.
