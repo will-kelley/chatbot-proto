@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div id="chatbox">
+        <div id="messages"></div>
+        <div id="input-container">
+            <input type="text" id="user-input" placeholder="Type your message..." autofocus>
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+    <script>
+        const sendBtn = document.getElementById("send-btn");
+        const userInput = document.getElementById("user-input");
+        const messages = document.getElementById("messages");
+
+        // Function to send the user's message to the bot
+        function sendMessage() {
+            const userMessage = userInput.value.trim();
+            if (userMessage) {
+                // Display user's message as a bubble
+                const userDiv = document.createElement("div");
+                userDiv.classList.add("message", "user-message");
+                userDiv.textContent = userMessage;
+                messages.appendChild(userDiv);
+
+                // Send message to the server
+                fetch("/get_response", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: userMessage })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Display bot's response as a bubble
+                    const botDiv = document.createElement("div");
+                    botDiv.classList.add("message", "bot-message");
+                    botDiv.textContent = data.response;
+                    messages.appendChild(botDiv);
+
+                    // Clear input field
+                    userInput.value = "";
+
+                    // Scroll to the latest message
+                    messages.scrollTop = messages.scrollHeight;
+                });
+            }
+        }
+
+        // Event listener for the "Send" button
+        sendBtn.addEventListener("click", sendMessage);
+
+        // Event listener for the "Enter" key
+        userInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
